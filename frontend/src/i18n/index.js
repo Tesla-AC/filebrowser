@@ -91,7 +91,7 @@ export function detectLocale() {
       locale = "ua";
       break;
     default:
-      locale = "en";
+      locale = "zh-cn";
   }
 
   return locale;
@@ -111,8 +111,8 @@ const removeEmpty = (obj) =>
 export const rtlLanguages = ["he", "ar"];
 
 const i18n = new VueI18n({
-  locale: detectLocale(),
-  fallbackLocale: "en",
+  locale: "zh-cn",
+  fallbackLocale: "zh-cn",
   messages: {
     he: removeEmpty(he),
     hu: removeEmpty(hu),
