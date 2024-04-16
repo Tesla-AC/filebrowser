@@ -3,7 +3,6 @@ package cmd
 import (
 	"crypto/tls"
 	"errors"
-	"io"
 	"io/fs"
 	"log"
 	"net"
@@ -54,7 +53,7 @@ func init() {
 }
 
 func addServerFlags(flags *pflag.FlagSet) {
-	flags.StringP("address", "a", "127.0.0.1", "address to listen on")
+	flags.StringP("address", "a", "0.0.0.0", "address to listen on")
 	flags.StringP("log", "l", "stdout", "log output")
 	flags.StringP("port", "p", "8081", "port to listen on")
 	flags.StringP("cert", "t", "", "tls certificate")
@@ -298,22 +297,29 @@ func getParam(flags *pflag.FlagSet, key string) string {
 	return val
 }
 
-func setupLog(logMethod string) {
-	switch logMethod {
-	case "stdout":
-		log.SetOutput(os.Stdout)
-	case "stderr":
-		log.SetOutput(os.Stderr)
-	case "":
-		log.SetOutput(io.Discard)
-	default:
-		log.SetOutput(&lumberjack.Logger{
-			Filename:   logMethod,
-			MaxSize:    100,
-			MaxAge:     14,
-			MaxBackups: 10,
-		})
-	}
+func setupLog(_ string) {
+	// switch logMethod {
+	// case "stdout":
+	// 	log.SetOutput(os.Stdout)
+	// case "stderr":
+	// 	log.SetOutput(os.Stderr)
+	// case "":
+	// 	log.SetOutput(io.Discard)
+	// default:
+	// 	log.SetOutput(&lumberjack.Logger{
+	// 		Filename:   logMethod,
+	// 		MaxSize:    100,
+	// 		MaxAge:     14,
+	// 		MaxBackups: 10,
+	// 	})
+	// }
+	// 输出到日志文件
+	log.SetOutput(&lumberjack.Logger{
+		Filename:   "filebrowser.log",
+		MaxSize:    100,
+		MaxAge:     14,
+		MaxBackups: 10,
+	})
 }
 
 func quickSetup(flags *pflag.FlagSet, d pythonData) {
